@@ -43,4 +43,16 @@ export const authAPI = {
   getMe: () => api.get('/user/me'),
 };
 
+export const inventoryAPI = {
+  list: (params) => api.get('/inventory', { params }),
+  getById: (itemId) => api.get(`/inventory/${itemId}`),
+  getItemAuditLogs: (itemId, params) => api.get(`/inventory/${itemId}/audit-logs`, { params }),
+  create: (data) => api.post('/inventory', data),
+  update: (itemId, data) => api.put(`/inventory/${itemId}`, data),
+};
+
+export const pubchemAPI = {
+  lookup: (name) => api.get('/pubchem/lookup', { params: { name } }),
+};
+
 export default api;

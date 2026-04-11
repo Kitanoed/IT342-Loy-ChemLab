@@ -1,4 +1,5 @@
 import { useAuth } from '../context/AuthContext';
+import { Link } from 'react-router-dom';
 import Orbs from '../components/Orbs';
 
 const Dashboard = () => {
@@ -28,7 +29,8 @@ const Dashboard = () => {
         <div className="topbar-left">
           <span className="topbar-logo">ChemLab</span>
           <nav className="topbar-nav">
-            <a href="#" className="topbar-link active">Dashboard</a>
+            <span className="topbar-link active">Dashboard</span>
+            <Link to="/inventory" className="topbar-link">Inventory</Link>
           </nav>
         </div>
         <button className="btn btn-danger btn-sm" onClick={logout}>

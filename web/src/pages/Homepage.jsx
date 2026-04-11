@@ -27,6 +27,9 @@ const Homepage = () => {
               <Link to="/dashboard" className="btn btn-primary btn-block">
                 Dashboard
               </Link>
+              <Link to="/inventory" className="btn btn-secondary btn-block">
+                View Inventory
+              </Link>
               <button onClick={logout} className="btn btn-secondary btn-block">
                 Logout
               </button>

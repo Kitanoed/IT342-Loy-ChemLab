@@ -5,6 +5,9 @@ import Homepage from './pages/Homepage';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
+import Inventory from './pages/Inventory';
+import InventoryItem from './pages/InventoryItem';
+import InventoryForm from './pages/InventoryForm';
 
 // Redirect authenticated users away from auth pages
 const PublicRoute = ({ children }) => {
@@ -26,6 +29,18 @@ function AppRoutes() {
       } />
       <Route path="/dashboard" element={
         <ProtectedRoute><Dashboard /></ProtectedRoute>
+      } />
+      <Route path="/inventory" element={
+        <ProtectedRoute><Inventory /></ProtectedRoute>
+      } />
+      <Route path="/inventory/:itemId" element={
+        <ProtectedRoute><InventoryItem /></ProtectedRoute>
+      } />
+      <Route path="/inventory/new" element={
+        <ProtectedRoute><InventoryForm /></ProtectedRoute>
+      } />
+      <Route path="/inventory/:itemId/edit" element={
+        <ProtectedRoute><InventoryForm /></ProtectedRoute>
       } />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
