@@ -30,6 +30,9 @@ public class User {
     @Column(nullable = false)
     private Role role = Role.STUDENT;
 
+    @Column(name = "lab_id")
+    private Long labId;
+
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -81,6 +84,9 @@ public class User {
 
     public Role getRole() { return role; }
     public void setRole(Role role) { this.role = role; }
+
+    public Long getLabId() { return labId; }
+    public void setLabId(Long labId) { this.labId = labId; }
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
