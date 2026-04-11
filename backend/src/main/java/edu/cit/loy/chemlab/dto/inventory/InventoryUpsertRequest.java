@@ -1,0 +1,99 @@
+package edu.cit.loy.chemlab.dto.inventory;
+
+import edu.cit.loy.chemlab.entity.InventoryItemType;
+import edu.cit.loy.chemlab.entity.InventoryStatus;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+public class InventoryUpsertRequest {
+
+    private String itemCode;
+    private String itemName;
+    private InventoryItemType itemType;
+    private String category;
+    private String casNumber;
+    private BigDecimal quantity;
+    private String unit;
+    private BigDecimal minThreshold;
+    private InventoryStatus status;
+    private String lotNumber;
+    private String description;
+    private String safetyNotes;
+    private Integer pubchemCid;
+    private String molecularFormula;
+    private String molecularWeight;
+    private String iupacName;
+    private LocalDate expiryDate;
+    private LocalDate receivedDate;
+    private Long labId;
+    private String storageLocation;
+    private String supplierName;
+    private Boolean backorderAllowed;
+
+    public String getItemCode() { return itemCode; }
+    public void setItemCode(String itemCode) { this.itemCode = itemCode; }
+
+    public String getItemName() { return itemName; }
+    public void setItemName(String itemName) { this.itemName = itemName; }
+
+    public InventoryItemType getItemType() { return itemType; }
+    public void setItemType(InventoryItemType itemType) { this.itemType = itemType; }
+
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+
+    public String getCasNumber() { return casNumber; }
+    public void setCasNumber(String casNumber) { this.casNumber = casNumber; }
+
+    public BigDecimal getQuantity() { return quantity; }
+    public void setQuantity(BigDecimal quantity) { this.quantity = quantity; }
+
+    public String getUnit() { return unit; }
+    public void setUnit(String unit) { this.unit = unit; }
+
+    public BigDecimal getMinThreshold() { return minThreshold; }
+    public void setMinThreshold(BigDecimal minThreshold) { this.minThreshold = minThreshold; }
+
+    public InventoryStatus getStatus() { return status; }
+    public void setStatus(InventoryStatus status) { this.status = status; }
+
+    public String getLotNumber() { return lotNumber; }
+    public void setLotNumber(String lotNumber) { this.lotNumber = lotNumber; }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+
+    public String getSafetyNotes() { return safetyNotes; }
+    public void setSafetyNotes(String safetyNotes) { this.safetyNotes = safetyNotes; }
+
+    public Integer getPubchemCid() { return pubchemCid; }
+    public void setPubchemCid(Integer pubchemCid) { this.pubchemCid = pubchemCid; }
+
+    public String getMolecularFormula() { return molecularFormula; }
+    public void setMolecularFormula(String molecularFormula) { this.molecularFormula = molecularFormula; }
+
+    public String getMolecularWeight() { return molecularWeight; }
+    public void setMolecularWeight(String molecularWeight) { this.molecularWeight = molecularWeight; }
+
+    public String getIupacName() { return iupacName; }
+    public void setIupacName(String iupacName) { this.iupacName = iupacName; }
+
+    public LocalDate getExpiryDate() { return expiryDate; }
+    public void setExpiryDate(LocalDate expiryDate) { this.expiryDate = expiryDate; }
+
+    public LocalDate getReceivedDate() { return receivedDate; }
+    public void setReceivedDate(LocalDate receivedDate) { this.receivedDate = receivedDate; }
+
+    public Long getLabId() { return labId; }
+    public void setLabId(Long labId) { this.labId = labId; }
+
+    public String getStorageLocation() { return storageLocation; }
+    public void setStorageLocation(String storageLocation) { this.storageLocation = storageLocation; }
+
+    public String getSupplierName() { return supplierName; }
+    public void setSupplierName(String supplierName) { this.supplierName = supplierName; }
+
+    public Boolean getBackorderAllowed() { return backorderAllowed; }
+    public void setBackorderAllowed(Boolean backorderAllowed) { this.backorderAllowed = backorderAllowed; }
+}
