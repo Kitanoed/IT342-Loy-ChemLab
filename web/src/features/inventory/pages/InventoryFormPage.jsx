@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { inventoryAPI, pubchemAPI } from '../services/api';
-import Orbs from '../components/Orbs';
+import { useAuth } from '../../auth/context/AuthContext';
+import { inventoryAPI, pubchemAPI } from '../../../services/api';
+import Orbs from '../../../components/Orbs';
 
 const defaultForm = {
   itemCode: '',
@@ -22,7 +22,7 @@ const defaultForm = {
   iupacName: '',
 };
 
-const InventoryForm = () => {
+const InventoryFormPage = () => {
   const { itemId } = useParams();
   const isEdit = Boolean(itemId);
   const navigate = useNavigate();
@@ -337,4 +337,4 @@ const InventoryForm = () => {
   );
 };
 
-export default InventoryForm;
+export default InventoryFormPage;

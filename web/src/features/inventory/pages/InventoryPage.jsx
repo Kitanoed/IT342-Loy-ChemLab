@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { inventoryAPI } from '../services/api';
-import Orbs from '../components/Orbs';
+import { useAuth } from '../../auth/context/AuthContext';
+import { inventoryAPI } from '../../../services/api';
+import Orbs from '../../../components/Orbs';
 
-const Inventory = () => {
+const InventoryPage = () => {
   const { user, logout } = useAuth();
 
   const [search, setSearch] = useState('');
@@ -226,4 +226,4 @@ const Inventory = () => {
   );
 };
 
-export default Inventory;
+export default InventoryPage;

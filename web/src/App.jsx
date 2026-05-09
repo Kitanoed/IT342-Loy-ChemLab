@@ -1,46 +1,39 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import Homepage from './pages/Homepage';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import Inventory from './pages/Inventory';
-import InventoryItem from './pages/InventoryItem';
-import InventoryForm from './pages/InventoryForm';
-
-// Redirect authenticated users away from auth pages
-const PublicRoute = ({ children }) => {
-  const { user, loading } = useAuth();
-  if (loading) return null;
-  if (user) return <Navigate to="/dashboard" replace />;
-  return children;
-};
+import { AuthProvider } from './features/auth/context/AuthContext';
+import ProtectedRoute from './features/auth/components/ProtectedRoute';
+import PublicRoute from './features/auth/components/PublicRoute';
+import HomePage from './features/home/pages/HomePage';
+import LoginPage from './features/auth/pages/LoginPage';
+import RegisterPage from './features/auth/pages/RegisterPage';
+import DashboardPage from './features/dashboard/pages/DashboardPage';
+import InventoryPage from './features/inventory/pages/InventoryPage';
+import InventoryItemPage from './features/inventory/pages/InventoryItemPage';
+import InventoryFormPage from './features/inventory/pages/InventoryFormPage';
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Homepage />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/login" element={
-        <PublicRoute><Login /></PublicRoute>
+        <PublicRoute><LoginPage /></PublicRoute>
       } />
       <Route path="/register" element={
-        <PublicRoute><Register /></PublicRoute>
+        <PublicRoute><RegisterPage /></PublicRoute>
       } />
       <Route path="/dashboard" element={
-        <ProtectedRoute><Dashboard /></ProtectedRoute>
+        <ProtectedRoute><DashboardPage /></ProtectedRoute>
       } />
       <Route path="/inventory" element={
-        <ProtectedRoute><Inventory /></ProtectedRoute>
+        <ProtectedRoute><InventoryPage /></ProtectedRoute>
       } />
       <Route path="/inventory/:itemId" element={
-        <ProtectedRoute><InventoryItem /></ProtectedRoute>
+        <ProtectedRoute><InventoryItemPage /></ProtectedRoute>
       } />
       <Route path="/inventory/new" element={
-        <ProtectedRoute><InventoryForm /></ProtectedRoute>
+        <ProtectedRoute><InventoryFormPage /></ProtectedRoute>
       } />
       <Route path="/inventory/:itemId/edit" element={
-        <ProtectedRoute><InventoryForm /></ProtectedRoute>
+        <ProtectedRoute><InventoryFormPage /></ProtectedRoute>
       } />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

@@ -9,7 +9,6 @@ const api = axios.create({
   },
 });
 
-// Request interceptor — attach JWT token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('accessToken');
@@ -21,7 +20,6 @@ api.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 
-// Response interceptor — handle 401
 api.interceptors.response.use(
   (response) => response,
   (error) => {
@@ -35,18 +33,11 @@ api.interceptors.response.use(
   }
 );
 
-export { authAPI } from '../features/auth/api/authApi';
-
-export const inventoryAPI = {
-  list: (params) => api.get('/inventory', { params }),
-  getById: (itemId) => api.get(`/inventory/${itemId}`),
-  getItemAuditLogs: (itemId, params) => api.get(`/inventory/${itemId}/audit-logs`, { params }),
-  create: (data) => api.post('/inventory', data),
-  update: (itemId, data) => api.put(`/inventory/${itemId}`, data),
-};
-
-export const pubchemAPI = {
-  lookup: (name) => api.get('/pubchem/lookup', { params: { name } }),
+export const authAPI = {
+  register: (data) => api.post('/auth/register', data),
+  login: (data) => api.post('/auth/login', data),
+  logout: () => api.post('/auth/logout'),
+  getMe: () => api.get('/user/me'),
 };
 
 export default api;

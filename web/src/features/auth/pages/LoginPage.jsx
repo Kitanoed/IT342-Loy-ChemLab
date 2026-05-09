@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import Orbs from '../components/Orbs';
+import Orbs from '../../../components/Orbs';
 
-const Login = () => {
+const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -29,50 +29,21 @@ const Login = () => {
   return (
     <div className="page page-center">
       <Orbs />
-
       <div className="glass auth-card">
         <h2 className="auth-title">Sign In</h2>
-
         {error && <div className="alert alert-error">{error}</div>}
-
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label className="form-label" htmlFor="email">Email</label>
-            <input
-              id="email"
-              type="email"
-              className="form-input"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
+            <input id="email" type="email" className="form-input" placeholder="you@example.com" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </div>
-
           <div className="form-group">
             <label className="form-label" htmlFor="password">Password</label>
-            <input
-              id="password"
-              type="password"
-              className="form-input"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
+            <input id="password" type="password" className="form-input" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
-
-          <button
-            type="submit"
-            className="btn btn-primary btn-block"
-            disabled={loading}
-          >
-            {loading ? <span className="spinner" /> : 'Sign In'}
-          </button>
+          <button type="submit" className="btn btn-primary btn-block" disabled={loading}>{loading ? <span className="spinner" /> : 'Sign In'}</button>
         </form>
-
         <div className="divider"><span>OR</span></div>
-
         <button className="btn btn-google btn-block" disabled>
           <svg width="18" height="18" viewBox="0 0 48 48">
             <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
@@ -82,14 +53,10 @@ const Login = () => {
           </svg>
           Sign in with Google
         </button>
-
-        <p className="auth-footer">
-          Don't have an account?{' '}
-          <Link to="/register" className="auth-link">Register here</Link>
-        </p>
+        <p className="auth-footer">Don't have an account? <Link to="/register" className="auth-link">Register here</Link></p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default LoginPage;
