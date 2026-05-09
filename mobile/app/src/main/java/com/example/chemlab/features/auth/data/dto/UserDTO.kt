@@ -1,7 +1,7 @@
-package com.example.chemlab.data.api.dto
+package com.example.chemlab.features.auth.data.dto
 
 data class UserDTO(
-    val id: String,
+    val id: Long,
     val email: String,
     val username: String,
     val firstName: String,

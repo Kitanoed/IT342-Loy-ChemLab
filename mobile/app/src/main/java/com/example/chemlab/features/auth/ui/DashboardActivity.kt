@@ -1,4 +1,4 @@
-package com.example.chemlab.ui.auth
+package com.example.chemlab.features.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,7 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chemlab.R
-import com.example.chemlab.data.storage.TokenManager
+import com.example.chemlab.features.auth.data.storage.TokenManager
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var tokenManager: TokenManager
@@ -19,15 +19,14 @@ class DashboardActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-        
+
         tokenManager = TokenManager(this)
-        
-        // Check if logged in
+
         if (!tokenManager.isLoggedIn()) {
             navigateToLogin()
             return
         }
-        
+
         initializeViews()
         setupUI()
         setupListeners()
@@ -52,9 +51,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        btnLogout.setOnClickListener {
-            logout()
-        }
+        btnLogout.setOnClickListener { logout() }
     }
 
     private fun logout() {

@@ -1,8 +1,8 @@
-package com.example.chemlab.data.storage
+package com.example.chemlab.features.auth.data.storage
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.chemlab.data.api.dto.UserDTO
+import com.example.chemlab.features.auth.data.dto.UserDTO
 import com.google.gson.Gson
 
 class TokenManager(context: Context) {
@@ -34,13 +34,9 @@ class TokenManager(context: Context) {
         }
     }
 
-    fun getAccessToken(): String? {
-        return sharedPreferences.getString(KEY_ACCESS_TOKEN, null)
-    }
+    fun getAccessToken(): String? = sharedPreferences.getString(KEY_ACCESS_TOKEN, null)
 
-    fun getRefreshToken(): String? {
-        return sharedPreferences.getString(KEY_REFRESH_TOKEN, null)
-    }
+    fun getRefreshToken(): String? = sharedPreferences.getString(KEY_REFRESH_TOKEN, null)
 
     fun getUser(): UserDTO? {
         val userJson = sharedPreferences.getString(KEY_USER, null) ?: return null
@@ -51,9 +47,7 @@ class TokenManager(context: Context) {
         }
     }
 
-    fun isLoggedIn(): Boolean {
-        return sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)
-    }
+    fun isLoggedIn(): Boolean = sharedPreferences.getBoolean(KEY_IS_LOGGED_IN, false)
 
     fun logout() {
         sharedPreferences.edit().apply {

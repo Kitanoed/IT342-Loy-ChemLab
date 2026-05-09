@@ -1,4 +1,4 @@
-package com.example.chemlab.ui.auth
+package com.example.chemlab.features.auth.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -9,9 +9,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.chemlab.R
-import com.example.chemlab.data.api.RetrofitClient
-import com.example.chemlab.data.api.dto.RegisterRequest
-import com.example.chemlab.data.storage.TokenManager
+import com.example.chemlab.features.auth.data.dto.RegisterRequest
+import com.example.chemlab.features.auth.data.remote.RetrofitClient
+import com.example.chemlab.features.auth.data.storage.TokenManager
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 
@@ -25,16 +25,15 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var tvLogin: TextView
     private lateinit var progressBar: ProgressBar
     private lateinit var tvError: TextView
-    
+
     private lateinit var tokenManager: TokenManager
     private val authService = RetrofitClient.getAuthService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        
+
         tokenManager = TokenManager(this)
-        
         initializeViews()
         setupListeners()
     }
@@ -52,13 +51,8 @@ class RegisterActivity : AppCompatActivity() {
     }
 
     private fun setupListeners() {
-        btnRegister.setOnClickListener {
-            registerUser()
-        }
-        
-        tvLogin.setOnClickListener {
-            navigateToLogin()
-        }
+        btnRegister.setOnClickListener { registerUser() }
+        tvLogin.setOnClickListener { navigateToLogin() }
     }
 
     private fun registerUser() {
@@ -68,8 +62,7 @@ class RegisterActivity : AppCompatActivity() {
         val email = etEmail.text.toString().trim()
         val password = etPassword.text.toString().trim()
 
-        // Validation
-        if (firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() || 
+        if (firstName.isEmpty() || lastName.isEmpty() || username.isEmpty() ||
             email.isEmpty() || password.isEmpty()) {
             showError("Please fill in all fields")
             return
@@ -121,14 +114,14 @@ class RegisterActivity : AppCompatActivity() {
                     lastName = lastName
                 )
                 val response = authService.register(request)
-                
+
                 if (response.isSuccessful && response.body() != null) {
                     val authResponse = response.body()!!
                     if (authResponse.success && authResponse.data != null) {
                         val data = authResponse.data
                         tokenManager.saveTokens(data.accessToken, data.refreshToken)
                         tokenManager.saveUser(data.user)
-                        showError("") // Clear errors
+                        showError("")
                         navigateToDashboard()
                     } else {
                         val errorMsg = authResponse.error?.message ?: "Registration failed"

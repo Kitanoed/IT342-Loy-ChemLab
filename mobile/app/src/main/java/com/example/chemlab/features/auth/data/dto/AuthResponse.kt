@@ -1,4 +1,4 @@
-package com.example.chemlab.data.api.dto
+package com.example.chemlab.features.auth.data.dto
 
 data class AuthResponse(
     val success: Boolean,
