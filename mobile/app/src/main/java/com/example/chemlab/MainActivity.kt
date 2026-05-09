@@ -6,9 +6,9 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.chemlab.data.storage.TokenManager
-import com.example.chemlab.ui.auth.DashboardActivity
-import com.example.chemlab.ui.auth.LoginActivity
+import com.example.chemlab.features.auth.data.storage.TokenManager
+import com.example.chemlab.features.auth.ui.DashboardActivity
+import com.example.chemlab.features.auth.ui.LoginActivity
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
