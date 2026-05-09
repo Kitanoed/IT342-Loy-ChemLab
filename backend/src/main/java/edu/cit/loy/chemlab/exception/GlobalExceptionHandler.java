@@ -1,6 +1,6 @@
 package edu.cit.loy.chemlab.exception;
 
-import edu.cit.loy.chemlab.dto.AuthResponse;
+import edu.cit.loy.chemlab.features.auth.dto.AuthResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
