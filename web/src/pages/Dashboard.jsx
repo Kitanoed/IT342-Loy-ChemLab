@@ -31,6 +31,7 @@ const Dashboard = () => {
           <nav className="topbar-nav">
             <span className="topbar-link active">Dashboard</span>
             <Link to="/inventory" className="topbar-link">Inventory</Link>
+            <Link to="/requests" className="topbar-link">Requests</Link>
           </nav>
         </div>
         <button className="btn btn-danger btn-sm" onClick={logout}>
