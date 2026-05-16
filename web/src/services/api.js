@@ -35,11 +35,11 @@ api.interceptors.response.use(
   }
 );
 
-// Auth API
 export const authAPI = {
-  register: (data) => api.post('/auth/register', data),
   login: (data) => api.post('/auth/login', data),
-  logout: () => api.post('/auth/logout'),
+  register: (data) => api.post('/auth/register', data),
+  logout: () => api.post('/auth/logout', { refreshToken: localStorage.getItem('refreshToken') }),
+  refresh: (refreshToken) => api.post('/auth/refresh', { refreshToken }),
   getMe: () => api.get('/user/me'),
 };
 
@@ -53,6 +53,28 @@ export const inventoryAPI = {
 
 export const pubchemAPI = {
   lookup: (name) => api.get('/pubchem/lookup', { params: { name } }),
+};
+
+export const requestsAPI = {
+  list: (params) => api.get('/requests', { params }),
+  getById: (requestId) => api.get(`/requests/${requestId}`),
+  create: (data) => api.post('/requests', data),
+  approve: (requestId, data) => api.put(`/requests/${requestId}/approve`, data || {}),
+  reject: (requestId, data) => api.put(`/requests/${requestId}/reject`, data || {}),
+};
+
+export const filesAPI = {
+  list: (inventoryItemId) => api.get('/files', { params: { inventoryItemId } }),
+  getById: (fileId) => api.get(`/files/${fileId}`),
+  upload: (file, inventoryItemId) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('inventoryItemId', inventoryItemId);
+    return api.post('/files/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+  },
+  downloadUrl: (fileId) => `${API_BASE_URL}/files/${fileId}/download`,
 };
 
 export default api;
