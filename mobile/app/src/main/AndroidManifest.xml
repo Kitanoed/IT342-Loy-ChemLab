@@ -39,6 +39,24 @@
         <activity
             android:name=".ui.auth.DashboardActivity"
             android:exported="false" />
+
+        <!-- Inventory Activities -->
+        <activity
+            android:name=".features.inventory.ui.InventoryListActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".features.inventory.ui.InventoryDetailActivity"
+            android:exported="false" />
+
+        <!-- Request Activities -->
+        <activity
+            android:name=".features.requests.ui.RequestsListActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".features.requests.ui.RequestDetailActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
