@@ -5,6 +5,7 @@ import edu.cit.loy.chemlab.features.auth.dto.AuthResponse;
 import edu.cit.loy.chemlab.features.auth.dto.LoginRequest;
 import edu.cit.loy.chemlab.features.auth.dto.RegisterRequest;
 import edu.cit.loy.chemlab.repository.UserRepository;
+import edu.cit.loy.chemlab.repository.RefreshTokenRepository;
 import edu.cit.loy.chemlab.security.JwtUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -28,6 +29,9 @@ class AuthServiceTest {
     private UserRepository userRepository;
 
     @Mock
+    private RefreshTokenRepository refreshTokenRepository;
+
+    @Mock
     private PasswordEncoder passwordEncoder;
 
     @Mock
@@ -40,7 +44,7 @@ class AuthServiceTest {
 
     @BeforeEach
     void setUp() {
-        authService = new AuthService(userRepository, passwordEncoder, jwtUtil);
+        authService = new AuthService(userRepository, refreshTokenRepository, passwordEncoder, jwtUtil, 86400000L);
     }
 
     @Test

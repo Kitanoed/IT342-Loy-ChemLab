@@ -6,5 +6,7 @@ data class UserDTO(
     val username: String,
     val firstName: String,
     val lastName: String,
-    val createdAt: String
+    val role: String? = null,
+    val createdAt: String? = null,
+    val updatedAt: String? = null
 )

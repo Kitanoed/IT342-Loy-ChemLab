@@ -2,6 +2,7 @@ package edu.cit.loy.chemlab.features.auth.controller;
 
 import edu.cit.loy.chemlab.features.auth.dto.AuthResponse;
 import edu.cit.loy.chemlab.features.auth.dto.LoginRequest;
+import edu.cit.loy.chemlab.features.auth.dto.RefreshTokenRequest;
 import edu.cit.loy.chemlab.features.auth.dto.RegisterRequest;
 import edu.cit.loy.chemlab.features.auth.service.AuthService;
 import org.springframework.http.HttpStatus;
@@ -55,12 +56,25 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/refresh")
+    public ResponseEntity<AuthResponse> refresh(@RequestBody RefreshTokenRequest request) {
+        AuthResponse response = authService.refreshToken(request.getRefreshToken());
+
+        if (!response.isSuccess()) {
+            String errorCode = response.getError().getCode();
+            if (errorCode.equals("AUTH-002")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+            }
+            return ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
     @PostMapping("/logout")
-    public ResponseEntity<AuthResponse> logout() {
-        AuthResponse response = new AuthResponse();
-        response.setSuccess(true);
-        response.setData(null);
-        response.setError(null);
+    public ResponseEntity<AuthResponse> logout(@RequestBody(required = false) RefreshTokenRequest request) {
+        String refreshToken = (request != null) ? request.getRefreshToken() : null;
+        AuthResponse response = authService.logout(refreshToken);
         return ResponseEntity.ok(response);
     }
 }

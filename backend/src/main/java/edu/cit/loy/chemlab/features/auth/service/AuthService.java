@@ -1,28 +1,43 @@
 package edu.cit.loy.chemlab.features.auth.service;
 
+import edu.cit.loy.chemlab.entity.RefreshToken;
 import edu.cit.loy.chemlab.entity.User;
 import edu.cit.loy.chemlab.features.auth.dto.AuthResponse;
 import edu.cit.loy.chemlab.features.auth.dto.LoginRequest;
 import edu.cit.loy.chemlab.features.auth.dto.RegisterRequest;
 import edu.cit.loy.chemlab.features.user.dto.UserDTO;
+import edu.cit.loy.chemlab.repository.RefreshTokenRepository;
 import edu.cit.loy.chemlab.repository.UserRepository;
 import edu.cit.loy.chemlab.security.JwtUtil;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 
 @Service
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final long refreshTokenExpirationMs;
 
-    public AuthService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
+    public AuthService(UserRepository userRepository,
+                       RefreshTokenRepository refreshTokenRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtUtil jwtUtil,
+                       @Value("${jwt.refresh-token-expiration}") long refreshTokenExpirationMs) {
         this.userRepository = userRepository;
+        this.refreshTokenRepository = refreshTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
+        this.refreshTokenExpirationMs = refreshTokenExpirationMs;
     }
 
+    @Transactional
     public AuthResponse register(RegisterRequest request) {
         if (request.getEmail() == null || request.getEmail().isBlank()) {
             return AuthResponse.error("VALID-001", "Validation failed", "Email is required");
@@ -55,11 +70,15 @@ public class AuthService {
         User savedUser = userRepository.save(user);
 
         String accessToken = jwtUtil.generateAccessToken(savedUser.getEmail(), savedUser.getRole().name());
-        String refreshToken = jwtUtil.generateRefreshToken(savedUser.getEmail());
+        String refreshTokenStr = jwtUtil.generateRefreshToken(savedUser.getEmail());
 
-        return AuthResponse.success(toDTO(savedUser), accessToken, refreshToken);
+        // Persist refresh token to database
+        persistRefreshToken(savedUser, refreshTokenStr);
+
+        return AuthResponse.success(toDTO(savedUser), accessToken, refreshTokenStr);
     }
 
+    @Transactional
     public AuthResponse login(LoginRequest request) {
         if (request.getEmail() == null || request.getEmail().isBlank()) {
             return AuthResponse.error("VALID-001", "Validation failed", "Email is required");
@@ -78,9 +97,62 @@ public class AuthService {
         }
 
         String accessToken = jwtUtil.generateAccessToken(user.getEmail(), user.getRole().name());
-        String refreshToken = jwtUtil.generateRefreshToken(user.getEmail());
+        String refreshTokenStr = jwtUtil.generateRefreshToken(user.getEmail());
 
-        return AuthResponse.success(toDTO(user), accessToken, refreshToken);
+        // Persist refresh token to database
+        persistRefreshToken(user, refreshTokenStr);
+
+        return AuthResponse.success(toDTO(user), accessToken, refreshTokenStr);
+    }
+
+    @Transactional
+    public AuthResponse refreshToken(String refreshTokenStr) {
+        if (refreshTokenStr == null || refreshTokenStr.isBlank()) {
+            return AuthResponse.error("VALID-001", "Validation failed", "Refresh token is required");
+        }
+
+        // Validate the JWT signature and expiration
+        if (!jwtUtil.isTokenValid(refreshTokenStr)) {
+            return AuthResponse.error("AUTH-002", "Invalid refresh token", "Refresh token is expired or invalid");
+        }
+
+        // Check database revocation
+        RefreshToken dbToken = refreshTokenRepository.findByToken(refreshTokenStr).orElse(null);
+        if (dbToken == null || !dbToken.isUsable()) {
+            return AuthResponse.error("AUTH-002", "Invalid refresh token", "Refresh token has been revoked or expired");
+        }
+
+        // Revoke the old token
+        dbToken.setRevoked(true);
+        refreshTokenRepository.save(dbToken);
+
+        User user = dbToken.getUser();
+
+        // Issue new token pair
+        String newAccessToken = jwtUtil.generateAccessToken(user.getEmail(), user.getRole().name());
+        String newRefreshTokenStr = jwtUtil.generateRefreshToken(user.getEmail());
+        persistRefreshToken(user, newRefreshTokenStr);
+
+        return AuthResponse.success(toDTO(user), newAccessToken, newRefreshTokenStr);
+    }
+
+    @Transactional
+    public AuthResponse logout(String refreshTokenStr) {
+        if (refreshTokenStr != null && !refreshTokenStr.isBlank()) {
+            refreshTokenRepository.revokeByToken(refreshTokenStr);
+        }
+
+        AuthResponse response = new AuthResponse();
+        response.setSuccess(true);
+        response.setData(null);
+        response.setError(null);
+        return response;
+    }
+
+    private void persistRefreshToken(User user, String tokenStr) {
+        LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(refreshTokenExpirationMs / 1000);
+        RefreshToken refreshToken = new RefreshToken(user, tokenStr, expiresAt);
+        refreshTokenRepository.save(refreshToken);
     }
 
     private UserDTO toDTO(User user) {

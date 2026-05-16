@@ -1,17 +1,25 @@
 import { useEffect, useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useAuth } from '../../auth/context/AuthContext';
-import { inventoryAPI } from '../../../services/api';
+import { inventoryAPI, filesAPI } from '../../../services/api';
 import Orbs from '../../../components/Orbs';
 
 const InventoryItemPage = () => {
   const { itemId } = useParams();
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
+  const role = user?.role || 'STUDENT';
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [item, setItem] = useState(null);
   const [audit, setAudit] = useState([]);
+
+  // SDS Files
+  const [files, setFiles] = useState([]);
+  const [uploadFile, setUploadFile] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+  const [uploadSuccess, setUploadSuccess] = useState('');
 
   useEffect(() => {
     const load = async () => {
@@ -34,7 +42,45 @@ const InventoryItemPage = () => {
     };
 
     load();
+    loadFiles();
   }, [itemId]);
+
+  const loadFiles = async () => {
+    try {
+      const res = await filesAPI.list(itemId);
+      setFiles(res.data || []);
+    } catch {
+      // Silent fail — files section is supplementary
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!uploadFile) return;
+
+    setUploading(true);
+    setUploadError('');
+    setUploadSuccess('');
+
+    try {
+      await filesAPI.upload(uploadFile, itemId);
+      setUploadSuccess('File uploaded successfully.');
+      setUploadFile(null);
+      // Reset file input
+      const fileInput = document.getElementById('sds-file-input');
+      if (fileInput) fileInput.value = '';
+      loadFiles();
+    } catch (err) {
+      setUploadError(err?.response?.data?.message || 'Failed to upload file.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const formatFileSize = (bytes) => {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / 1048576).toFixed(1) + ' MB';
+  };
 
   const detailRows = useMemo(() => {
     if (!item) return [];
@@ -65,6 +111,7 @@ const InventoryItemPage = () => {
           <nav className="topbar-nav">
             <Link to="/dashboard" className="topbar-link">Dashboard</Link>
             <Link to="/inventory" className="topbar-link">Inventory</Link>
+            <Link to="/requests" className="topbar-link">Requests</Link>
             <span className="topbar-link active">Item Details</span>
           </nav>
         </div>
@@ -75,7 +122,7 @@ const InventoryItemPage = () => {
         <section className="inv-header-row">
           <div>
             <h1 className="dash-greeting">Inventory Item Details</h1>
-            <p className="inv-subtext">Read-only details and latest audit logs.</p>
+            <p className="inv-subtext">Read-only details, audit logs, and SDS files.</p>
           </div>
           <Link to="/inventory" className="btn btn-secondary">Back to Inventory</Link>
         </section>
@@ -93,6 +140,69 @@ const InventoryItemPage = () => {
                   <span className="profile-value">{value}</span>
                 </div>
               ))}
+            </div>
+          )}
+        </section>
+
+        {/* SDS Files Section */}
+        <section className="glass inv-table-card">
+          <h3 className="dash-section-title">Safety Data Sheets (SDS)</h3>
+
+          {(role === 'TECHNICIAN' || role === 'ADMIN') && (
+            <div className="sds-upload-row">
+              <input
+                id="sds-file-input"
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png"
+                className="form-input"
+                onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+                disabled={uploading}
+              />
+              <button
+                className="btn btn-primary btn-sm"
+                onClick={handleUpload}
+                disabled={uploading || !uploadFile}
+              >
+                {uploading ? 'Uploading...' : 'Upload SDS'}
+              </button>
+            </div>
+          )}
+
+          {uploadError && <div className="alert alert-error">{uploadError}</div>}
+          {uploadSuccess && <div className="alert alert-success">{uploadSuccess}</div>}
+
+          {files.length === 0 ? (
+            <div className="inv-empty">No SDS files uploaded yet.</div>
+          ) : (
+            <div className="inv-table-wrap">
+              <table className="inv-table">
+                <thead>
+                  <tr>
+                    <th>File Name</th>
+                    <th>Type</th>
+                    <th>Size</th>
+                    <th>Uploaded By</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {files.map((f) => (
+                    <tr key={f.id}>
+                      <td>{f.fileName}</td>
+                      <td>{f.fileType}</td>
+                      <td>{formatFileSize(f.fileSize)}</td>
+                      <td>{f.uploaderUsername}</td>
+                      <td>{f.createdAt ? new Date(f.createdAt).toLocaleString() : '—'}</td>
+                      <td>
+                        <a href={f.downloadUrl} target="_blank" rel="noopener noreferrer" className="inv-view-link">
+                          Download
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           )}
         </section>

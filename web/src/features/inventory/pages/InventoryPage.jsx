@@ -90,6 +90,7 @@ const InventoryPage = () => {
           <nav className="topbar-nav">
             <Link to="/dashboard" className="topbar-link">Dashboard</Link>
             <span className="topbar-link active">Inventory</span>
+            <Link to="/requests" className="topbar-link">Requests</Link>
           </nav>
         </div>
         <button className="btn btn-danger btn-sm" onClick={logout}>Logout</button>

@@ -9,6 +9,9 @@ import DashboardPage from './features/dashboard/pages/DashboardPage';
 import InventoryPage from './features/inventory/pages/InventoryPage';
 import InventoryItemPage from './features/inventory/pages/InventoryItemPage';
 import InventoryFormPage from './features/inventory/pages/InventoryFormPage';
+import RequestsPage from './features/requests/pages/RequestsPage';
+import RequestCreatePage from './features/requests/pages/RequestCreatePage';
+import RequestDetailPage from './features/requests/pages/RequestDetailPage';
 
 function AppRoutes() {
   return (
@@ -35,6 +38,16 @@ function AppRoutes() {
       <Route path="/inventory/:itemId/edit" element={
         <ProtectedRoute><InventoryFormPage /></ProtectedRoute>
       } />
+
+      <Route path="/requests" element={
+        <ProtectedRoute><RequestsPage /></ProtectedRoute>
+      } />
+      <Route path="/requests/new" element={
+        <ProtectedRoute><RequestCreatePage /></ProtectedRoute>
+      } />
+      <Route path="/requests/:requestId" element={
+        <ProtectedRoute><RequestDetailPage /></ProtectedRoute>
+      } />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
@@ -51,4 +64,3 @@ function App() {
 }
 
 export default App;
-
