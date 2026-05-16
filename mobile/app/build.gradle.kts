@@ -52,6 +52,10 @@ dependencies {
     // Kotlin Coroutines
     implementation(libs.kotlinx.coroutines.android)
     
+    // Lifecycle + RecyclerView
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.recyclerview)
+    
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
