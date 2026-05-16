@@ -1,13 +1,14 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
-import ProtectedRoute from './components/ProtectedRoute';
-import Homepage from './pages/Homepage';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Dashboard from './pages/Dashboard';
-import Inventory from './pages/Inventory';
-import InventoryItem from './pages/InventoryItem';
-import InventoryForm from './pages/InventoryForm';
+import { AuthProvider } from './features/auth/context/AuthContext';
+import ProtectedRoute from './features/auth/components/ProtectedRoute';
+import PublicRoute from './features/auth/components/PublicRoute';
+import HomePage from './features/home/pages/HomePage';
+import LoginPage from './features/auth/pages/LoginPage';
+import RegisterPage from './features/auth/pages/RegisterPage';
+import DashboardPage from './features/dashboard/pages/DashboardPage';
+import InventoryPage from './features/inventory/pages/InventoryPage';
+import InventoryItemPage from './features/inventory/pages/InventoryItemPage';
+import InventoryFormPage from './features/inventory/pages/InventoryFormPage';
 import RequestsPage from './features/requests/pages/RequestsPage';
 import RequestCreatePage from './features/requests/pages/RequestCreatePage';
 import RequestDetailPage from './features/requests/pages/RequestDetailPage';
@@ -15,24 +16,29 @@ import RequestDetailPage from './features/requests/pages/RequestDetailPage';
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Homepage />} />
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={
+        <PublicRoute><LoginPage /></PublicRoute>
+      } />
+      <Route path="/register" element={
+        <PublicRoute><RegisterPage /></PublicRoute>
+      } />
       <Route path="/dashboard" element={
-        <ProtectedRoute><Dashboard /></ProtectedRoute>
+        <ProtectedRoute><DashboardPage /></ProtectedRoute>
       } />
       <Route path="/inventory" element={
-        <ProtectedRoute><Inventory /></ProtectedRoute>
-      } />
-      <Route path="/inventory/new" element={
-        <ProtectedRoute><InventoryForm /></ProtectedRoute>
-      } />
-      <Route path="/inventory/:itemId/edit" element={
-        <ProtectedRoute><InventoryForm /></ProtectedRoute>
+        <ProtectedRoute><InventoryPage /></ProtectedRoute>
       } />
       <Route path="/inventory/:itemId" element={
-        <ProtectedRoute><InventoryItem /></ProtectedRoute>
+        <ProtectedRoute><InventoryItemPage /></ProtectedRoute>
       } />
+      <Route path="/inventory/new" element={
+        <ProtectedRoute><InventoryFormPage /></ProtectedRoute>
+      } />
+      <Route path="/inventory/:itemId/edit" element={
+        <ProtectedRoute><InventoryFormPage /></ProtectedRoute>
+      } />
+
       <Route path="/requests" element={
         <ProtectedRoute><RequestsPage /></ProtectedRoute>
       } />

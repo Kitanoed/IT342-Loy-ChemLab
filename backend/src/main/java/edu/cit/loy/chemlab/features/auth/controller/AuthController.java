@@ -1,9 +1,9 @@
 package edu.cit.loy.chemlab.features.auth.controller;
 
-import edu.cit.loy.chemlab.dto.AuthResponse;
-import edu.cit.loy.chemlab.dto.LoginRequest;
+import edu.cit.loy.chemlab.features.auth.dto.AuthResponse;
+import edu.cit.loy.chemlab.features.auth.dto.LoginRequest;
 import edu.cit.loy.chemlab.features.auth.dto.RefreshTokenRequest;
-import edu.cit.loy.chemlab.dto.RegisterRequest;
+import edu.cit.loy.chemlab.features.auth.dto.RegisterRequest;
 import edu.cit.loy.chemlab.features.auth.service.AuthService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

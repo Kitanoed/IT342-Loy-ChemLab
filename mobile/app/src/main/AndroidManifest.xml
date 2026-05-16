@@ -29,15 +29,15 @@
 
         <!-- Authentication Activities -->
         <activity
-            android:name=".ui.auth.LoginActivity"
+            android:name=".features.auth.ui.LoginActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ui.auth.RegisterActivity"
+            android:name=".features.auth.ui.RegisterActivity"
             android:exported="false" />
 
         <activity
-            android:name=".ui.auth.DashboardActivity"
+            android:name=".features.auth.ui.DashboardActivity"
             android:exported="false" />
 
         <!-- Inventory Activities -->

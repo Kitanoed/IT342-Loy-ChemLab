@@ -2,10 +2,10 @@ package edu.cit.loy.chemlab.features.auth.service;
 
 import edu.cit.loy.chemlab.entity.RefreshToken;
 import edu.cit.loy.chemlab.entity.User;
-import edu.cit.loy.chemlab.dto.AuthResponse;
-import edu.cit.loy.chemlab.dto.LoginRequest;
-import edu.cit.loy.chemlab.dto.RegisterRequest;
-import edu.cit.loy.chemlab.dto.UserDTO;
+import edu.cit.loy.chemlab.features.auth.dto.AuthResponse;
+import edu.cit.loy.chemlab.features.auth.dto.LoginRequest;
+import edu.cit.loy.chemlab.features.auth.dto.RegisterRequest;
+import edu.cit.loy.chemlab.features.user.dto.UserDTO;
 import edu.cit.loy.chemlab.repository.RefreshTokenRepository;
 import edu.cit.loy.chemlab.repository.UserRepository;
 import edu.cit.loy.chemlab.security.JwtUtil;

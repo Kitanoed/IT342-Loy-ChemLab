@@ -6,10 +6,10 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chemlab.R
-import com.example.chemlab.data.storage.TokenManager
+import com.example.chemlab.features.auth.data.storage.TokenManager
 import com.example.chemlab.features.inventory.ui.InventoryListActivity
 import com.example.chemlab.features.requests.ui.RequestsListActivity
-import com.example.chemlab.ui.auth.LoginActivity
+import com.example.chemlab.features.auth.ui.LoginActivity
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -31,6 +31,7 @@ class DashboardActivity : AppCompatActivity() {
 
         tokenManager = TokenManager(this)
 
+        // Check if logged in
         if (!tokenManager.isLoggedIn()) {
             navigateToLogin()
             return
@@ -56,8 +57,10 @@ class DashboardActivity : AppCompatActivity() {
     private fun setupUI() {
         val user = tokenManager.getUser()
         if (user != null) {
+            // Greeting (matches web: "Welcome, {username}!")
             tvGreeting.text = "Welcome, ${user.username}!"
 
+            // Profile grid values (matches web Dashboard.jsx)
             val fullName = listOfNotNull(user.firstName, user.lastName)
                 .filter { it.isNotBlank() }
                 .joinToString(" ")
@@ -69,8 +72,11 @@ class DashboardActivity : AppCompatActivity() {
             tvMemberSince.text = formatDate(user.createdAt)
             tvLastUpdated.text = formatDate(user.updatedAt)
 
+            // Role badge
             val role = user.role ?: "STUDENT"
             tvRoleBadge.text = role
+
+            // Set badge color based on role (matches web badge-student/technician/admin)
             val badgeColor = when (role.uppercase()) {
                 "STUDENT" -> 0xFF3B82F6.toInt()
                 "TECHNICIAN" -> 0xFF10B981.toInt()
@@ -95,6 +101,7 @@ class DashboardActivity : AppCompatActivity() {
 
     private fun setupListeners() {
         btnLogout.setOnClickListener { logout() }
+        // Topbar navigation
         findViewById<Button>(R.id.navDashboard).setOnClickListener { /* Already here */ }
         findViewById<Button>(R.id.navInventory).setOnClickListener { navigateToInventory() }
         findViewById<Button>(R.id.navRequests).setOnClickListener { navigateToRequests() }

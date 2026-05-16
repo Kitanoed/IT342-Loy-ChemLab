@@ -1,6 +1,6 @@
 package com.example.chemlab.features.auth.data.remote
 
-import com.example.chemlab.data.api.AuthService
+import com.example.chemlab.features.auth.data.remote.AuthService
 import com.example.chemlab.features.inventory.data.remote.InventoryService
 import com.example.chemlab.features.requests.data.remote.RequestsService
 import com.google.gson.GsonBuilder
@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 object RetrofitClient {
-    private const val BASE_URL = "http://10.0.2.2:8080/"
+    private const val BASE_URL = "http://10.0.2.2:8080/" // For Android emulator
 
     private val httpClient = OkHttpClient.Builder()
         .addInterceptor(HttpLoggingInterceptor().apply {
@@ -36,7 +36,9 @@ object RetrofitClient {
     fun getAuthService(): AuthService {
         return retrofit.create(AuthService::class.java)
     }
-
+    /**
+     * Creates an authenticated OkHttp client with Bearer token in Authorization header.
+     */
     private fun getAuthenticatedClient(accessToken: String): OkHttpClient {
         val authInterceptor = Interceptor { chain ->
             val request = chain.request().newBuilder()
@@ -74,3 +76,4 @@ object RetrofitClient {
             .create(RequestsService::class.java)
     }
 }
+

@@ -35,13 +35,7 @@ api.interceptors.response.use(
   }
 );
 
-export const authAPI = {
-  login: (data) => api.post('/auth/login', data),
-  register: (data) => api.post('/auth/register', data),
-  logout: () => api.post('/auth/logout', { refreshToken: localStorage.getItem('refreshToken') }),
-  refresh: (refreshToken) => api.post('/auth/refresh', { refreshToken }),
-  getMe: () => api.get('/user/me'),
-};
+export { authAPI } from '../features/auth/api/authApi';
 
 export const inventoryAPI = {
   list: (params) => api.get('/inventory', { params }),
