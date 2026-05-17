@@ -142,7 +142,7 @@ public class FileService {
 
             if (response.statusCode() >= 400) {
                 throw new InventoryApiException("STORAGE_UPLOAD_ERROR", 502,
-                        "Failed to upload to Supabase Storage. Status: " + response.statusCode());
+                        "Failed to upload to Supabase Storage. Status: " + response.statusCode() + " Body: " + response.body());
             }
         } catch (IOException | InterruptedException ex) {
             if (ex instanceof InterruptedException) {
