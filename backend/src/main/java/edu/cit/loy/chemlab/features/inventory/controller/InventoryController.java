@@ -110,7 +110,7 @@ public class InventoryController {
     }
 
     @GetMapping("/inventory/{itemId}/audit-logs")
-    @PreAuthorize("hasAnyRole('TECHNICIAN','ADMIN')")
+    @PreAuthorize("hasAnyRole('STUDENT','TECHNICIAN','ADMIN')")
     public ResponseEntity<Page<AuditLogResponse>> getItemAuditLogs(
             @PathVariable Long itemId,
             @RequestParam(defaultValue = "0") int page,

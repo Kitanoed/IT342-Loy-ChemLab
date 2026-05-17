@@ -375,9 +375,7 @@ public class InventoryService {
 
     public Page<AuditLogResponse> getItemAuditLogs(Long itemId, Pageable pageable, String actorEmail) {
         User actor = getActor(actorEmail);
-        if (actor.getRole() == User.Role.STUDENT) {
-            throw new InventoryApiException("FORBIDDEN", 403, "Insufficient permissions.");
-        }
+
 
         return auditLogRepository
                 .findByEntityTypeAndEntityIdOrderByCreatedAtDesc("INVENTORY_ITEM", String.valueOf(itemId), pageable)
