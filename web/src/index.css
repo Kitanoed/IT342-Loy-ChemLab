@@ -105,10 +105,11 @@ input, button, select, textarea { font-family: inherit; }
 .btn-primary {
   background: linear-gradient(135deg, #3B82F6, #1D4ED8);
   color: #fff;
+  border: 1px solid rgba(59, 130, 246, 0.4);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(59, 130, 246, 0.35);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5), 0 0 30px rgba(59, 130, 246, 0.3);
 }
 
 .btn-secondary {
@@ -154,7 +155,38 @@ input, button, select, textarea { font-family: inherit; }
   box-shadow: none !important;
 }
 
-/* ===== SPINNER ===== */
+/* ===== FLASK SPINNER ===== */
+.flask-spinner {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  display: inline-block;
+}
+.flask-spinner::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 24px; height: 24px;
+  border: 2px solid rgba(255,255,255,0.7);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: flask-bubble 1s ease-in-out infinite alternate;
+}
+.flask-spinner::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 8px; height: 12px;
+  border-left: 2px solid rgba(255,255,255,0.7);
+  border-right: 2px solid rgba(255,255,255,0.7);
+}
+@keyframes flask-bubble { 
+  0% { box-shadow: inset 0 -6px 0 #06B6D4; }
+  100% { box-shadow: inset 0 -14px 0 #3B82F6, 0 0 10px #06B6D4; } 
+}
+
 .spinner {
   width: 20px; height: 20px;
   border: 2.5px solid rgba(255,255,255,0.25);
@@ -264,6 +296,8 @@ input, button, select, textarea { font-family: inherit; }
   position: relative;
   min-height: 100vh;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
 }
 .page-center {
   display: flex;
@@ -370,6 +404,33 @@ input, button, select, textarea { font-family: inherit; }
   gap: 4px;
 }
 
+.identity-badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+.identity-badge .id-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #F0F4F8;
+}
+.identity-badge .id-role {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.1);
+}
+.identity-badge.role-student .id-role { color: #3B82F6; background: rgba(59,130,246,0.15); }
+.identity-badge.role-lab_technician .id-role { color: #10B981; background: rgba(16,185,129,0.15); }
+.identity-badge.role-administrator .id-role { color: #A78BFA; background: rgba(124,58,237,0.15); }
+
 .topbar-link {
   padding: 8px 16px;
   border-radius: 10px;
@@ -427,24 +488,211 @@ input, button, select, textarea { font-family: inherit; }
   .dash-profile { padding: 20px; }
 }
 
-/* Profile card */
-.profile-grid {
+/* Widget Layouts */
+.dash-widgets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
-  margin-bottom: 20px;
+  margin-top: 24px;
 }
-.profile-item { display: flex; flex-direction: column; gap: 4px; }
-.profile-label {
+.widget-glass {
+  background: rgba(20, 20, 25, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.widget-glass::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+}
+.widget-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #F0F4F8;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.widget-title svg {
+  color: #3B82F6;
+}
+
+/* Active Flask Workflow Stepper */
+.workflow-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+}
+.stepper-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  flex: 1;
+  text-align: center;
+}
+.stepper-item::after {
+  content: '';
+  position: absolute;
+  top: 16px; right: -50%;
+  width: 100%; height: 2px;
+  background: rgba(255,255,255,0.1);
+  z-index: 0;
+}
+.stepper-item:last-child::after { display: none; }
+.step-icon {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: #1e1e24;
+  border: 2px solid rgba(255,255,255,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+.step-label {
   font-size: 0.75rem;
   font-weight: 600;
   color: #94A3B8;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
 }
-.profile-value {
-  font-size: 0.95rem;
-  color: #F0F4F8;
+.stepper-item.active .step-icon {
+  background: rgba(245, 158, 11, 0.15);
+  border-color: #F59E0B;
+  color: #F59E0B;
+  box-shadow: 0 0 15px rgba(245, 158, 11, 0.4);
+}
+.stepper-item.completed .step-icon {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10B981;
+  color: #10B981;
+}
+.stepper-item.completed + .stepper-item::after {
+  background: #10B981;
+}
+
+/* Gauge Cards */
+.gauge-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background: rgba(0,0,0,0.2);
+  border-radius: 12px;
+  border-left: 4px solid #3B82F6;
+  margin-bottom: 12px;
+}
+.gauge-card.danger {
+  border-left-color: #EF4444;
+  box-shadow: -4px 0 15px -4px rgba(239, 68, 68, 0.3);
+}
+.gauge-card.warning {
+  border-left-color: #F59E0B;
+  box-shadow: -4px 0 15px -4px rgba(245, 158, 11, 0.3);
+}
+.gauge-label { font-size: 0.85rem; color: #94A3B8; }
+.gauge-value { font-size: 1.25rem; font-weight: 800; color: #F0F4F8; }
+
+/* Empty Bench State */
+.empty-bench {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  text-align: center;
+  color: #94A3B8;
+}
+.empty-bench svg {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+.empty-bench p {
+  font-size: 0.9rem;
+  max-width: 200px;
+  line-height: 1.5;
+}
+
+/* PubChem Inspector */
+.pubchem-inspector {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-top: 20px;
+}
+.blueprint-frame {
+  background: rgba(10, 20, 30, 0.6);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  font-family: 'Inter', monospace;
+  position: relative;
+}
+.blueprint-frame::after {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 30px; height: 30px;
+  border-top: 2px solid #3B82F6; border-right: 2px solid #3B82F6;
+  border-top-right-radius: 12px;
+}
+.blueprint-row {
+  display: flex; justify-content: space-between;
+  margin-bottom: 12px; border-bottom: 1px dashed rgba(255,255,255,0.1);
+  padding-bottom: 4px;
+}
+.blueprint-label { color: #06B6D4; font-size: 0.8rem; text-transform: uppercase; }
+.blueprint-value { color: #F0F4F8; font-weight: 600; font-size: 0.9rem; }
+
+.safety-shield {
+  background: rgba(30, 10, 10, 0.6);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+}
+.safety-title {
+  color: #EF4444; font-weight: 700; font-size: 0.95rem;
+  margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+}
+.safety-notes {
+  font-size: 0.85rem; color: #FCA5A5; line-height: 1.6;
+}
+.hazard-symbols {
+  display: flex; gap: 8px; margin-top: 12px;
+}
+.hazard-icon {
+  width: 28px; height: 28px;
+  background: #fff; border: 2px solid #EF4444;
+  transform: rotate(45deg);
+  display: flex; align-items: center; justify-content: center;
+}
+.hazard-icon span {
+  transform: rotate(-45deg); color: #000; font-weight: 900; font-size: 1rem;
+}
+@media (max-width: 768px) {
+  .pubchem-inspector { grid-template-columns: 1fr; }
+}
+
+/* Glowing Input Errors */
+.form-input.input-error {
+  border-color: #EF4444;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15), 0 0 10px rgba(239, 68, 68, 0.3);
+}
+.inline-warning {
+  color: #EF4444; font-size: 0.75rem; margin-top: 4px;
+  display: flex; align-items: center; gap: 4px;
 }
 
 /* Role badges */
@@ -593,18 +841,50 @@ input, button, select, textarea { font-family: inherit; }
 .inv-table th,
 .inv-table td {
   text-align: left;
-  padding: 12px 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-  font-size: 0.85rem;
+  padding: 16px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.inv-table tr:hover {
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .inv-table th {
   color: #94A3B8;
   font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
 }
 
 .inv-table td {
   color: #F0F4F8;
+}
+
+.cell-chemical {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.chem-icon {
+  width: 32px; height: 32px;
+  background: rgba(59, 130, 246, 0.1);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #3B82F6;
+  font-size: 1.2rem;
+}
+.equip-icon {
+  width: 32px; height: 32px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  color: #10B981;
+  font-size: 1.2rem;
 }
 
 .inv-view-link {

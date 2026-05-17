@@ -162,9 +162,15 @@ const InventoryPage = () => {
           {error && <div className="alert alert-error">{error}</div>}
 
           {loading ? (
-            <div className="inv-loading">Loading inventory...</div>
+            <div className="inv-loading" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
+              <div className="flask-spinner"></div>
+              <p style={{ marginTop: '16px', color: '#94A3B8' }}>Loading laboratory bench...</p>
+            </div>
           ) : items.length === 0 ? (
-            <div className="inv-empty">No inventory items found.</div>
+            <div className="empty-bench">
+              <svg width="64" height="64" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 24 24"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+              <p>All quiet on the bench. No items found matching your criteria.</p>
+            </div>
           ) : (
             <div className="inv-table-wrap">
               <table className="inv-table">
@@ -177,17 +183,30 @@ const InventoryPage = () => {
                 <tbody>
                   {items.map((item) => (
                     <tr key={item.id}>
-                      <td>{item.itemCode}</td>
-                      <td>{item.itemName}</td>
-                      <td>{item.itemType}</td>
-                      <td>{item.quantity} {item.unit}</td>
+                      <td style={{ fontFamily: 'monospace', color: '#06B6D4' }}>{item.itemCode}</td>
+                      <td>
+                        <div className="cell-chemical">
+                          {item.itemType === 'CHEMICAL' ? (
+                            <div className="chem-icon" title="Chemical">⚗️</div>
+                          ) : (
+                            <div className="equip-icon" title="Equipment">🔬</div>
+                          )}
+                          <span style={{ fontWeight: '600' }}>{item.itemName}</span>
+                        </div>
+                      </td>
+                      <td style={{ fontSize: '0.8rem', color: '#94A3B8' }}>{item.itemType}</td>
+                      <td style={{ fontWeight: '700' }}>{item.quantity} <span style={{ fontSize: '0.75rem', color: '#94A3B8' }}>{item.unit}</span></td>
                       <td>
                         <span className={`badge badge-${String(item.status || '').toLowerCase()}`}>
                           {item.status}
                         </span>
                       </td>
-                      <td>{item.storageLocation || '—'}</td>
-                      <td>{item.updatedAt ? new Date(item.updatedAt).toLocaleString() : '—'}</td>
+                      <td>
+                        <span style={{ background: 'rgba(255,255,255,0.05)', padding: '4px 8px', borderRadius: '6px', fontSize: '0.8rem' }}>
+                          {item.storageLocation || '—'}
+                        </span>
+                      </td>
+                      <td style={{ fontSize: '0.8rem', color: '#94A3B8' }}>{item.updatedAt ? new Date(item.updatedAt).toLocaleDateString() : '—'}</td>
                       <td>
                         <Link to={`/inventory/${item.id}`} className="inv-view-link">View</Link>
                         {(role === 'TECHNICIAN' || role === 'ADMIN') && (

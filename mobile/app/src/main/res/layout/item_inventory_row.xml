@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="CODE"
-            android:textColor="@color/text_secondary"
+            android:textColor="@color/accent_cyan"
             android:textSize="12sp"
             android:textStyle="bold"
             android:letterSpacing="0.05" />
@@ -39,23 +39,41 @@
             android:letterSpacing="0.05" />
     </LinearLayout>
 
-    <!-- Name -->
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/tvItemName"
+    <!-- Name & Icon -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
-        android:text="Item Name"
-        android:textColor="@color/text_primary"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:gravity="center_vertical"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+        
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvTypeIcon"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/bg_badge"
+            android:gravity="center"
+            android:text="⚗️"
+            android:textSize="14sp"
+            android:layout_marginEnd="12dp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvItemName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Item Name"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
     <!-- Bottom row: type · quantity · location -->
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/tvDetails"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:text="CHEMICAL · 100 g · Room A"
         android:textColor="@color/text_muted"
         android:textSize="12sp" />

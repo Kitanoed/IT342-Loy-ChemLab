@@ -115,220 +115,146 @@
                 android:padding="24dp">
 
                 <!-- Greeting -->
-                <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/tvGreeting"
+                <!-- Identity Badge -->
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Welcome, user!"
-                    android:textColor="@color/text_primary"
-                    android:textSize="22sp"
-                    android:textStyle="bold" />
-
-                <!-- Profile Card -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/bg_glass_card"
-                    android:orientation="vertical"
-                    android:padding="24dp">
-
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:gravity="center_vertical">
+                    
                     <com.google.android.material.textview.MaterialTextView
+                        android:id="@+id/tvName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Profile Information"
+                        android:text="User Name"
                         android:textColor="@color/text_primary"
-                        android:textSize="17sp"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        android:layout_marginBottom="20dp" />
+                        android:layout_marginEnd="8dp" />
 
-                    <!-- Profile Grid (2 columns) -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
-
-                        <!-- Full Name -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="FULL NAME"
-                                android:textAllCaps="true"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="11sp"
-                                android:textStyle="bold"
-                                android:letterSpacing="0.04" />
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tvName"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="—"
-                                android:textColor="@color/text_primary"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-
-                        <!-- Username -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="USERNAME"
-                                android:textAllCaps="true"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="11sp"
-                                android:textStyle="bold"
-                                android:letterSpacing="0.04" />
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tvUsername"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="—"
-                                android:textColor="@color/text_primary"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="16dp">
-
-                        <!-- Email -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="EMAIL"
-                                android:textAllCaps="true"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="11sp"
-                                android:textStyle="bold"
-                                android:letterSpacing="0.04" />
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tvEmail"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="—"
-                                android:textColor="@color/text_primary"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-
-                        <!-- User ID -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="USER ID"
-                                android:textAllCaps="true"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="11sp"
-                                android:textStyle="bold"
-                                android:letterSpacing="0.04" />
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tvUserId"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="—"
-                                android:textColor="@color/text_primary"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="20dp">
-
-                        <!-- Member Since -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="MEMBER SINCE"
-                                android:textAllCaps="true"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="11sp"
-                                android:textStyle="bold"
-                                android:letterSpacing="0.04" />
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tvMemberSince"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="—"
-                                android:textColor="@color/text_primary"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-
-                        <!-- Last Updated -->
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-                            <com.google.android.material.textview.MaterialTextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="LAST UPDATED"
-                                android:textAllCaps="true"
-                                android:textColor="@color/text_secondary"
-                                android:textSize="11sp"
-                                android:textStyle="bold"
-                                android:letterSpacing="0.04" />
-                            <com.google.android.material.textview.MaterialTextView
-                                android:id="@+id/tvLastUpdated"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="4dp"
-                                android:text="—"
-                                android:textColor="@color/text_primary"
-                                android:textSize="15sp" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <!-- Role Badge -->
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvRoleBadge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_badge"
-                        android:paddingHorizontal="14dp"
+                        android:paddingHorizontal="8dp"
                         android:paddingVertical="4dp"
                         android:text="STUDENT"
-                        android:textAllCaps="true"
                         android:textColor="@color/accent_blue"
-                        android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.05" />
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
 
+                <!-- Student Widgets (Default visible for mocking) -->
+                <LinearLayout
+                    android:id="@+id/layoutStudentWidgets"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginTop="24dp">
+
+                    <!-- Active Flask Widget -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_glass_card"
+                        android:orientation="vertical"
+                        android:padding="20dp"
+                        android:layout_marginBottom="16dp">
+                        
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Active Flask Workflow"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:drawablePadding="8dp" />
+                        
+                        <!-- Stepper Mock -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:layout_marginTop="16dp"
+                            android:weightSum="4">
+                            
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="✓\nSubmitted"
+                                android:textColor="@color/success_green"
+                                android:gravity="center"
+                                android:textSize="10sp" />
+                                
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="⌛\nPending"
+                                android:textColor="@color/warning_yellow"
+                                android:gravity="center"
+                                android:textSize="10sp" />
+                                
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="3\nApproved"
+                                android:textColor="@color/text_secondary"
+                                android:gravity="center"
+                                android:textSize="10sp" />
+                                
+                            <com.google.android.material.textview.MaterialTextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="4\nReleased"
+                                android:textColor="@color/text_secondary"
+                                android:gravity="center"
+                                android:textSize="10sp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <!-- Quick Request Pad -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/bg_glass_card"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+                        
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Quick Request Pad"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="12dp" />
+                            
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_input"
+                            android:hint="Search Chemicals..."
+                            android:textColorHint="@color/text_muted"
+                            android:textColor="@color/text_primary"
+                            android:paddingHorizontal="16dp"
+                            android:textSize="14sp" />
+                            
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_marginTop="12dp"
+                            android:text="Add to Cart"
+                            style="@style/GlassButton" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>

@@ -131,15 +131,60 @@ const InventoryItemPage = () => {
           {error && <div className="alert alert-error">{error}</div>}
 
           {loading ? (
-            <div className="inv-loading">Loading item details...</div>
+            <div className="inv-loading" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '40px' }}>
+              <div className="flask-spinner"></div>
+              <p style={{ marginTop: '16px', color: '#94A3B8' }}>Loading compound blueprint...</p>
+            </div>
           ) : (
-            <div className="inv-details-grid">
-              {detailRows.map(([label, value]) => (
-                <div className="profile-item" key={label}>
-                  <span className="profile-label">{label}</span>
-                  <span className="profile-value">{value}</span>
+            <div className="pubchem-inspector">
+              <div className="blueprint-frame">
+                <div style={{ marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                  <div className="chem-icon" style={{ width: '48px', height: '48px', fontSize: '1.8rem' }}>
+                    {item?.itemType === 'CHEMICAL' ? '⚗️' : '🔬'}
+                  </div>
+                  <div>
+                    <div style={{ fontSize: '1.2rem', color: '#F0F4F8', fontWeight: '800' }}>{item?.itemName}</div>
+                    <div style={{ fontSize: '0.8rem', color: '#06B6D4', fontFamily: 'monospace' }}>CID: {item?.itemCode}</div>
+                  </div>
                 </div>
-              ))}
+
+                {detailRows.map(([label, value]) => (
+                  <div className="blueprint-row" key={label}>
+                    <span className="blueprint-label">{label}</span>
+                    <span className="blueprint-value">{value}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="safety-shield">
+                <div className="safety-title">
+                  <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                  GHS Safety Shield
+                </div>
+                
+                {item?.itemType === 'CHEMICAL' ? (
+                  <>
+                    <p className="safety-notes">
+                      <strong>Handling Warning:</strong> Observe all institutional safety protocols before dispensing. This material may require specialized fume hood extraction. Review the attached Safety Data Sheets (SDS) below before handling.
+                    </p>
+                    <div className="hazard-symbols">
+                      <div className="hazard-icon" title="Flammable"><span>🔥</span></div>
+                      <div className="hazard-icon" title="Toxic"><span>☠️</span></div>
+                      <div className="hazard-icon" title="Corrosive"><span>🧪</span></div>
+                    </div>
+                  </>
+                ) : (
+                  <p className="safety-notes" style={{ color: '#94A3B8' }}>
+                    <strong>Equipment Status:</strong> Structural integrity checks are recommended before each use. Ensure power cords and physical housings are not compromised.
+                  </p>
+                )}
+
+                <div style={{ marginTop: '24px', padding: '16px', background: 'rgba(0,0,0,0.3)', borderRadius: '8px', borderLeft: `3px solid ${item?.status === 'AVAILABLE' ? '#10B981' : '#F59E0B'}` }}>
+                  <div style={{ fontSize: '0.75rem', color: '#94A3B8', textTransform: 'uppercase', marginBottom: '4px' }}>Real-time Status</div>
+                  <div style={{ color: '#F0F4F8', fontWeight: '700', fontSize: '1.1rem' }}>{item?.status}</div>
+                  <div style={{ fontSize: '0.85rem', color: '#94A3B8', marginTop: '4px' }}>Shelf Location: {item?.storageLocation || 'Unknown'}</div>
+                </div>
+              </div>
             </div>
           )}
         </section>
@@ -172,7 +217,10 @@ const InventoryItemPage = () => {
           {uploadSuccess && <div className="alert alert-success">{uploadSuccess}</div>}
 
           {files.length === 0 ? (
-            <div className="inv-empty">No SDS files uploaded yet.</div>
+            <div className="empty-bench">
+              <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+              <p>No safety documents found for this item.</p>
+            </div>
           ) : (
             <div className="inv-table-wrap">
               <table className="inv-table">
@@ -212,7 +260,10 @@ const InventoryItemPage = () => {
           {loading ? (
             <div className="inv-loading">Loading audit logs...</div>
           ) : audit.length === 0 ? (
-            <div className="inv-empty">No audit logs available.</div>
+            <div className="empty-bench">
+              <svg width="48" height="48" fill="none" stroke="currentColor" strokeWidth="1" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <p>No recent activity on this item.</p>
+            </div>
           ) : (
             <div className="inv-table-wrap">
               <table className="inv-table">

@@ -178,9 +178,9 @@
                     android:indeterminateTint="@color/accent_blue"
                     android:visibility="gone" />
 
-                <!-- Glass Detail Card -->
+                <!-- PubChem Blueprint Frame -->
                 <LinearLayout
-                    android:id="@+id/detailCard"
+                    android:id="@+id/blueprintFrame"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_glass_card"
@@ -188,16 +188,49 @@
                     android:padding="24dp"
                     android:visibility="gone">
 
-                    <!-- Item Name -->
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvItemName"
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Item Name"
-                        android:textColor="@color/text_primary"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:visibility="gone" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical"
+                        android:layout_marginBottom="16dp">
+                        
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tvTypeIcon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:background="@drawable/bg_badge"
+                            android:gravity="center"
+                            android:text="⚗️"
+                            android:textSize="24sp"
+                            android:layout_marginEnd="16dp" />
+                            
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
+                            
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tvItemName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Item Name"
+                                android:textColor="@color/text_primary"
+                                android:textSize="20sp"
+                                android:textStyle="bold" />
+                                
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/tvItemCode"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="CID: CODE"
+                                android:textColor="@color/accent_cyan"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:letterSpacing="0.05" />
+                        </LinearLayout>
+                    </LinearLayout>
 
                     <!-- Detail Fields Grid (2 columns) -->
                     <include layout="@layout/detail_field"
@@ -227,12 +260,12 @@
 
                 </LinearLayout>
 
-                <!-- Description Card -->
+                <!-- Safety Shield -->
                 <LinearLayout
-                    android:id="@+id/descriptionCard"
+                    android:id="@+id/safetyShield"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
                     android:background="@drawable/bg_glass_card"
                     android:orientation="vertical"
                     android:padding="24dp"
@@ -241,39 +274,81 @@
                     <com.google.android.material.textview.MaterialTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Description"
-                        android:textColor="@color/text_primary"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tvDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="—"
-                        android:textColor="@color/text_secondary"
-                        android:textSize="14sp"
-                        android:lineSpacingMultiplier="1.4" />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="Safety Notes"
+                        android:text="GHS Safety Shield"
                         android:textColor="@color/error_red"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
 
                     <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/tvSafetyNotes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="—"
-                        android:textColor="@color/text_secondary"
+                        android:layout_marginTop="12dp"
+                        android:text="Handling Warning: Observe all institutional safety protocols before dispensing."
+                        android:textColor="#FCA5A5"
                         android:textSize="14sp"
                         android:lineSpacingMultiplier="1.4" />
+                        
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="16dp">
+                        
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_badge"
+                            android:gravity="center"
+                            android:text="🔥"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="8dp" />
+                            
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_badge"
+                            android:gravity="center"
+                            android:text="☠️"
+                            android:textSize="16sp"
+                            android:layout_marginEnd="8dp" />
+                            
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:background="@drawable/bg_badge"
+                            android:gravity="center"
+                            android:text="🧪"
+                            android:textSize="16sp" />
+                    </LinearLayout>
+                    
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:background="#4D000000"
+                        android:padding="16dp"
+                        android:layout_marginTop="24dp">
+                        
+                        <com.google.android.material.textview.MaterialTextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="REAL-TIME STATUS"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:letterSpacing="0.05" />
+                            
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tvStatusDisplay"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AVAILABLE"
+                            android:textColor="@color/text_primary"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:layout_marginTop="4dp" />
+                    </LinearLayout>
                 </LinearLayout>
 
             </LinearLayout>
