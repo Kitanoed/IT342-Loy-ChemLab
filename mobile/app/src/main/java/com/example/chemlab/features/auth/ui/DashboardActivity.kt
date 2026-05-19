@@ -15,13 +15,7 @@ import java.util.Locale
 
 class DashboardActivity : AppCompatActivity() {
     private lateinit var tokenManager: TokenManager
-    private lateinit var tvGreeting: TextView
     private lateinit var tvName: TextView
-    private lateinit var tvUsername: TextView
-    private lateinit var tvEmail: TextView
-    private lateinit var tvUserId: TextView
-    private lateinit var tvMemberSince: TextView
-    private lateinit var tvLastUpdated: TextView
     private lateinit var tvRoleBadge: TextView
     private lateinit var btnLogout: Button
 
@@ -43,13 +37,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun initializeViews() {
-        tvGreeting = findViewById(R.id.tvGreeting)
         tvName = findViewById(R.id.tvName)
-        tvUsername = findViewById(R.id.tvUsername)
-        tvEmail = findViewById(R.id.tvEmail)
-        tvUserId = findViewById(R.id.tvUserId)
-        tvMemberSince = findViewById(R.id.tvMemberSince)
-        tvLastUpdated = findViewById(R.id.tvLastUpdated)
         tvRoleBadge = findViewById(R.id.tvRoleBadge)
         btnLogout = findViewById(R.id.btnLogout)
     }
@@ -57,20 +45,11 @@ class DashboardActivity : AppCompatActivity() {
     private fun setupUI() {
         val user = tokenManager.getUser()
         if (user != null) {
-            // Greeting (matches web: "Welcome, {username}!")
-            tvGreeting.text = "Welcome, ${user.username}!"
-
-            // Profile grid values (matches web Dashboard.jsx)
             val fullName = listOfNotNull(user.firstName, user.lastName)
                 .filter { it.isNotBlank() }
                 .joinToString(" ")
                 .ifEmpty { user.username }
             tvName.text = fullName
-            tvUsername.text = user.username
-            tvEmail.text = user.email
-            tvUserId.text = "#${user.id}"
-            tvMemberSince.text = formatDate(user.createdAt)
-            tvLastUpdated.text = formatDate(user.updatedAt)
 
             // Role badge
             val role = user.role ?: "STUDENT"

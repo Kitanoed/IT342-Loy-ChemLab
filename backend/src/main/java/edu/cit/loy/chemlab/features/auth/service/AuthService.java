@@ -14,7 +14,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.gson.GsonFactory;
+
 import java.time.LocalDateTime;
+import java.util.Collections;
+import java.util.UUID;
 
 @Service
 public class AuthService {
@@ -24,17 +31,20 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
     private final long refreshTokenExpirationMs;
+    private final String googleClientId;
 
     public AuthService(UserRepository userRepository,
                        RefreshTokenRepository refreshTokenRepository,
                        PasswordEncoder passwordEncoder,
                        JwtUtil jwtUtil,
-                       @Value("${jwt.refresh-token-expiration}") long refreshTokenExpirationMs) {
+                       @Value("${jwt.refresh-token-expiration}") long refreshTokenExpirationMs,
+                       @Value("${google.client.id}") String googleClientId) {
         this.userRepository = userRepository;
         this.refreshTokenRepository = refreshTokenRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtUtil = jwtUtil;
         this.refreshTokenExpirationMs = refreshTokenExpirationMs;
+        this.googleClientId = googleClientId;
     }
 
     @Transactional
@@ -103,6 +113,62 @@ public class AuthService {
         persistRefreshToken(user, refreshTokenStr);
 
         return AuthResponse.success(toDTO(user), accessToken, refreshTokenStr);
+    }
+
+    @Transactional
+    public AuthResponse googleLogin(String idTokenString) {
+        if (idTokenString == null || idTokenString.isBlank()) {
+            return AuthResponse.error("VALID-001", "Validation failed", "ID Token is required");
+        }
+
+        try {
+            GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(new NetHttpTransport(), GsonFactory.getDefaultInstance())
+                    .setAudience(Collections.singletonList(googleClientId))
+                    .build();
+
+            GoogleIdToken idToken = verifier.verify(idTokenString);
+            if (idToken != null) {
+                GoogleIdToken.Payload payload = idToken.getPayload();
+                String email = payload.getEmail();
+                
+                User user = userRepository.findByEmail(email).orElse(null);
+                
+                if (user == null) {
+                    // Create a new user if one doesn't exist
+                    user = new User();
+                    user.setEmail(email);
+                    
+                    // Generate a random username base, or use email prefix
+                    String baseUsername = email.split("@")[0];
+                    String username = baseUsername;
+                    int counter = 1;
+                    while (userRepository.existsByUsername(username)) {
+                        username = baseUsername + counter++;
+                    }
+                    user.setUsername(username);
+                    
+                    // Generate a random secure password for Google users since they use Google to auth
+                    user.setPassword(passwordEncoder.encode(UUID.randomUUID().toString()));
+                    
+                    user.setFirstName((String) payload.get("given_name"));
+                    user.setLastName((String) payload.get("family_name"));
+                    user.setRole(User.Role.STUDENT);
+                    
+                    user = userRepository.save(user);
+                }
+                
+                String accessToken = jwtUtil.generateAccessToken(user.getEmail(), user.getRole().name());
+                String refreshTokenStr = jwtUtil.generateRefreshToken(user.getEmail());
+                
+                persistRefreshToken(user, refreshTokenStr);
+                
+                return AuthResponse.success(toDTO(user), accessToken, refreshTokenStr);
+            } else {
+                return AuthResponse.error("AUTH-003", "Invalid ID token", "Google ID token could not be verified.");
+            }
+        } catch (Exception e) {
+            return AuthResponse.error("AUTH-003", "Invalid ID token", "Error verifying Google ID token: " + e.getMessage());
+        }
     }
 
     @Transactional

@@ -10,14 +10,14 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.chemlab.R
-import com.example.chemlab.data.api.RetrofitClient
-import com.example.chemlab.data.storage.TokenManager
+import com.example.chemlab.features.auth.data.remote.RetrofitClient
+import com.example.chemlab.features.auth.data.storage.TokenManager
 import com.example.chemlab.features.inventory.ui.InventoryListActivity
 import com.example.chemlab.features.requests.data.dto.RequestActionBody
 import com.example.chemlab.features.requests.data.dto.RequestDTO
 import com.example.chemlab.features.requests.data.dto.RequestItemDTO
-import com.example.chemlab.ui.auth.DashboardActivity
-import com.example.chemlab.ui.auth.LoginActivity
+import com.example.chemlab.features.auth.ui.DashboardActivity
+import com.example.chemlab.features.auth.ui.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 

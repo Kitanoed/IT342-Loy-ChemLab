@@ -2,6 +2,7 @@ package edu.cit.loy.chemlab.features.auth.controller;
 
 import edu.cit.loy.chemlab.features.auth.dto.AuthResponse;
 import edu.cit.loy.chemlab.features.auth.dto.LoginRequest;
+import edu.cit.loy.chemlab.features.auth.dto.GoogleLoginRequest;
 import edu.cit.loy.chemlab.features.auth.dto.RefreshTokenRequest;
 import edu.cit.loy.chemlab.features.auth.dto.RegisterRequest;
 import edu.cit.loy.chemlab.features.auth.service.AuthService;
@@ -51,6 +52,17 @@ public class AuthController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
             return ResponseEntity.badRequest().body(response);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/google")
+    public ResponseEntity<AuthResponse> googleLogin(@RequestBody GoogleLoginRequest request) {
+        AuthResponse response = authService.googleLogin(request.getIdToken());
+
+        if (!response.isSuccess()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
 
         return ResponseEntity.ok(response);

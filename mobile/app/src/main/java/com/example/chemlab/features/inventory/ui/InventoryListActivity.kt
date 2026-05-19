@@ -11,10 +11,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chemlab.R
-import com.example.chemlab.data.api.RetrofitClient
-import com.example.chemlab.data.storage.TokenManager
-import com.example.chemlab.ui.auth.DashboardActivity
-import com.example.chemlab.ui.auth.LoginActivity
+import com.example.chemlab.features.auth.data.remote.RetrofitClient
+import com.example.chemlab.features.auth.data.storage.TokenManager
+import com.example.chemlab.features.auth.ui.DashboardActivity
+import com.example.chemlab.features.auth.ui.LoginActivity
 import com.google.android.material.textfield.TextInputEditText
 import kotlinx.coroutines.launch
 

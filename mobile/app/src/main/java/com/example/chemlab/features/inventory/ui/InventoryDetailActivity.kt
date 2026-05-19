@@ -10,10 +10,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.chemlab.R
-import com.example.chemlab.data.api.RetrofitClient
-import com.example.chemlab.data.storage.TokenManager
-import com.example.chemlab.ui.auth.DashboardActivity
-import com.example.chemlab.ui.auth.LoginActivity
+import com.example.chemlab.features.auth.data.remote.RetrofitClient
+import com.example.chemlab.features.auth.data.storage.TokenManager
+import com.example.chemlab.features.auth.ui.DashboardActivity
+import com.example.chemlab.features.auth.ui.LoginActivity
 import com.example.chemlab.features.inventory.data.dto.InventoryItemDTO
 import kotlinx.coroutines.launch
 
@@ -47,8 +47,8 @@ class InventoryDetailActivity : AppCompatActivity() {
     private fun initializeViews() {
         progressBar = findViewById(R.id.progressBar)
         tvError = findViewById(R.id.tvError)
-        detailCard = findViewById(R.id.detailCard)
-        descriptionCard = findViewById(R.id.descriptionCard)
+        detailCard = findViewById(R.id.blueprintFrame)
+        descriptionCard = findViewById(R.id.safetyShield)
         tvItemName = findViewById(R.id.tvItemName)
     }
 
@@ -127,8 +127,7 @@ class InventoryDetailActivity : AppCompatActivity() {
         val safety = item.safetyNotes
         if (!desc.isNullOrBlank() || !safety.isNullOrBlank()) {
             descriptionCard.visibility = View.VISIBLE
-            findViewById<TextView>(R.id.tvDescription).text = desc ?: "—"
-            findViewById<TextView>(R.id.tvSafetyNotes).text = safety ?: "—"
+            findViewById<TextView>(R.id.tvSafetyNotes).text = safety ?: "No safety notes provided."
         }
     }
 

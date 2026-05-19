@@ -183,7 +183,7 @@
                     android:layout_height="50dp"
                     android:text="Sign in with Google"
                     android:textSize="15sp"
-                    android:enabled="false"
+                    android:enabled="true"
                     app:icon="@android:drawable/ic_menu_compass"
                     app:iconGravity="textStart"
                     app:iconSize="20dp"
